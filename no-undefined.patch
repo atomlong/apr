@@ -1,0 +1,12 @@
+diff -dpurN apr-1.7.4.orig/configure.in apr-1.7.4/configure.in
+--- apr-1.7.4.orig/configure.in	2023-03-13 18:29:04.000000000 +0800
++++ apr-1.7.4/configure.in	2023-07-01 23:17:27.049619400 +0800
+@@ -305,7 +305,7 @@ AC_ARG_WITH(libtool, [  --without-libtoo
+ if test "x$use_libtool" = "xyes"; then
+       lt_compile='$(LIBTOOL) $(LTFLAGS) --mode=compile --tag=CC $(COMPILE) -o $@ -c $< && touch $@'
+       LT_VERSION="-version-info `$get_version libtool $version_hdr APR`"
+-      link="\$(LIBTOOL) \$(LTFLAGS) --mode=link --tag=CC \$(COMPILE) \$(LT_LDFLAGS) \$(LT_VERSION) \$(ALL_LDFLAGS) -o \$@"
++      link="\$(LIBTOOL) \$(LTFLAGS) --mode=link --tag=CC \$(COMPILE) \$(LT_LDFLAGS) \$(LT_VERSION) -no-undefined \$(ALL_LDFLAGS) -o \$@"
+       so_ext='lo'
+       lib_target='-rpath $(libdir) $(OBJECTS)'
+       export_lib_target='-rpath \$(libdir) \$(OBJECTS)'

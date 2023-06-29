@@ -1,0 +1,32 @@
+pkgbase = apr
+	pkgdesc = The Apache Portable Runtime
+	pkgver = 1.7.4
+	pkgrel = 2
+	url = https://apr.apache.org/
+	arch = i686
+	arch = x86_64
+	license = spdx:Apache-2.0
+	makedepends = libcrypt-devel
+	makedepends = libuuid-devel
+	makedepends = autotools
+	makedepends = gcc
+	options = !libtool
+	source = https://archive.apache.org/dist/apr/apr-1.7.4.tar.bz2
+	source = enable-threads.patch
+	source = no-undefined.patch
+	sha256sums = fc648de983f3a2a6c9e78dea1f180639bd2fad6c06d556d4367a701fe5c35577
+	sha256sums = 0b7d8f13bb2621fea5fa45460a69959811ba9116c3ee04632a1e5ab9e5dbdf2c
+	sha256sums = 3f3079ceef8338ea3bdb20a9fb6852787be579efcf9974097be996a1a581b6e0
+
+pkgname = apr
+	groups = libraries
+	depends = libcrypt
+	depends = libuuid
+
+pkgname = apr-devel
+	pkgdesc = Libapr headers and libraries
+	groups = development
+	depends = apr=1.7.4
+	depends = libcrypt-devel
+	depends = libuuid-devel
+	options = staticlibs

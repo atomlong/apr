@@ -1,0 +1,21 @@
+
+
+From: David Rothenberger <daveroth@acm.org>
+
+
+---
+ configure.in |    1 -
+ 1 files changed, 0 insertions(+), 1 deletions(-)
+
+diff --git a/configure.in b/configure.in
+index e2a337a..f218a4d 100644
+--- a/configure.in
++++ b/configure.in
+@@ -550,7 +550,6 @@ case $host in
+        ;;
+    *cygwin*)
+        OSDIR="unix"
+-       enable_threads="no"
+        eolstr="\\n"
+        ;;
+    *hpux10* ) 
