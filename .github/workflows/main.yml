@@ -1,0 +1,54 @@
+  
+name: makepkg CI
+
+on: 
+  release:
+    types: [published]
+  push:
+    tags:
+    - 'v*'
+  #  branches: 
+  #  - master
+  #schedule:
+  #  - cron: 00 15 * * *
+  watch:
+    types: [started]
+
+jobs:
+  build-msys2-pkg:
+    runs-on: windows-latest
+    if: github.event.repository.owner.id == github.event.sender.id || github.event_name == 'schedule'
+    steps:
+    - name: Set git to use LF
+      id: gitconfig
+      run: |
+        git config --global core.autocrlf false
+        git config --global core.eol lf
+    - uses: actions/checkout@v3.5.3
+      id: checkout
+      with:
+        fetch-depth: 0
+    - name: Run on Msys2
+      uses: atomlong/run-on-msys-action@master
+      id: runcmd
+      with:
+        rcloneConfig: ${{ secrets.RCLONE_CONF }}
+        pgpKey: ${{ secrets.PGP_KEY }}
+        pgpKeyPassword: ${{ secrets.PGP_KEY_PASSWD }}
+        pacmanRepo: ${{ secrets.PACMAN_REPO }}
+        deployPath: ${{ secrets.DEPLOY_PATH }}
+        customRepos: ${{ secrets.CUSTOM_REPOS }}
+    - name: Send mail
+      uses: atomlong/send-mail-action@v3.7.2
+      if: ${{ steps.runcmd.outputs.message != '' }}
+      with:
+        server_address: ${{secrets.MAIL_HOST}}
+        server_port: ${{secrets.MAIL_PORT}}
+        username: ${{secrets.MAIL_USERNAME}}
+        password: ${{secrets.MAIL_PASSWORD}}
+        subject: Github Actions job of ${{github.repository}} result
+        html_body: ${{ steps.runcmd.outputs.message }}
+        to: ${{secrets.MAIL_TO}}
+        from: Github
+        attachments: ${{ steps.runcmd.outputs.logs }}
+        
